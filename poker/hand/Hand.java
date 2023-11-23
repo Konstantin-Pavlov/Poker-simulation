@@ -19,12 +19,18 @@ public class Hand {
                 counter++;
             }
         }
+    }
 
+    public void changeCards(String[] cardNumbers) {
+        System.out.print("Будут заменены карты с номерами: ");
+        for (String cardNumber : cardNumbers) {
+            System.out.print(cardNumber + " ");
+        }
     }
 
     public void showHand() {
-        int i = 0;
-        for (; i < handCards.length - 1; i++) {
+        int i = 1;
+        for (; i < handCards.length; i++) {
             System.out.printf("%-15d|",i);
         }
         System.out.printf("%-15d%n",i);
