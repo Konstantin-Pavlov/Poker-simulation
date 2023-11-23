@@ -12,6 +12,9 @@ poker
 │   └── Deck.java
 ├── hand
 │   └── Hand.java
-└── enums
-    └── Suit.java
+├── helper
+│   └── Helper.java
+├── enums
+│   └── Suit.java
+└── Game.java
 </pre>

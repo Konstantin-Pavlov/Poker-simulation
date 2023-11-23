@@ -27,12 +27,12 @@ public class Hand {
         for (; i < handCards.length - 1; i++) {
             System.out.printf("%-15d|",i);
         }
-        System.out.printf("%-15d\n",i);
+        System.out.printf("%-15d%n",i);
 
         for (i = 0; i < handCards.length - 1; i++) {
             System.out.printf("%-15s|", handCards[i]);
         }
-        System.out.printf("%-15s\n", handCards[i]);
+        System.out.printf("%-15s%n", handCards[i]);
     }
 }
 
