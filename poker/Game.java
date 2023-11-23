@@ -18,6 +18,7 @@ public class Game {
         hand.dealingCards();
         hand.showHand();
         helper.askToChangeCards(hand);
+        hand.showHand();
 
     }
 }

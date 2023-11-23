@@ -7,7 +7,6 @@ public class Hand {
     Card[] handCards = new Card[5];
     Deck deck = new Deck();
 
-
     public void dealingCards() {
         deck.genereitNewDeck();
         int counter = 0;
@@ -25,15 +24,24 @@ public class Hand {
         System.out.print("Будут заменены карты с номерами: ");
         for (String cardNumber : cardNumbers) {
             System.out.print(cardNumber + " ");
+            while (true) {
+                Card card = deck.getRandomCard();
+                if (card.isAvalible()) {
+                    handCards[Integer.parseInt(cardNumber) - 1] = card;
+                    card.setAvalible(false);
+                    break;
+                }
+            }
         }
+        System.out.println();
     }
 
     public void showHand() {
         int i = 1;
         for (; i < handCards.length; i++) {
-            System.out.printf("%-15d|",i);
+            System.out.printf("%-15d|", i);
         }
-        System.out.printf("%-15d%n",i);
+        System.out.printf("%-15d%n", i);
 
         for (i = 0; i < handCards.length - 1; i++) {
             System.out.printf("%-15s|", handCards[i]);
@@ -41,4 +49,3 @@ public class Hand {
         System.out.printf("%-15s%n", handCards[i]);
     }
 }
-
