@@ -4,7 +4,7 @@ import poker.cards.Card;
 import poker.deck.Deck;
 
 public class Hand {
-    Card[] handCards = new Card[5];
+    public Card[] handCards = new Card[5];
     Deck deck = new Deck();
 
     public void dealingCards() {
@@ -27,6 +27,7 @@ public class Hand {
             while (true) {
                 Card card = deck.getRandomCard();
                 if (card.isAvalible()) {
+                    deck.returnCard(handCards[Integer.parseInt(cardNumber) - 1]);
                     handCards[Integer.parseInt(cardNumber) - 1] = card;
                     card.setAvalible(false);
                     break;
@@ -34,6 +35,13 @@ public class Hand {
             }
         }
         System.out.println();
+    }
+
+    public void returnCard(String cardNumber) {
+        Card cardToReturn = handCards[Integer.parseInt(cardNumber) - 1];
+        System.out.println("вы возвращаете карту");
+        System.out.printf("номер карты: %s карта: %s%n", cardNumber, cardToReturn);
+        deck.returnCard(cardToReturn);
     }
 
     public void showHand() {

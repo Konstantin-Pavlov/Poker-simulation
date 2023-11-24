@@ -22,6 +22,10 @@ public  class Card {
         isAvalible = available;
     }
 
+    public Suit getSuit() {
+        return suit;
+    }
+
     @Override
     public String toString() {
         return rank + this.suit.getCardSuit();
