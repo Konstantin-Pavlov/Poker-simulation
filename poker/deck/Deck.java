@@ -53,8 +53,8 @@ public class Deck {
         return new String[] { "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A" };
     }
 
-    // используется алгоритм Фишера-Йейтса для случайного перемешиванияэлементовмассива
-    // тип Object (родитель всех остальных классов) поэтому в аргументах может бытьлюбой тип
+    // используется алгоритм Фишера-Йейтса для случайного перемешивания элементов массива
+    // тип Object (родитель всех остальных классов) поэтому в аргументах может быть любой тип
     public void shuffleArray(Object[] array) {
         int n = array.length;
 
@@ -74,7 +74,7 @@ public class Deck {
         return cards[choice];
     }
     public void returnCard(Card card){
-        card.setAvalible(true);
+        card.setAvailable(true);
     }
 
 }

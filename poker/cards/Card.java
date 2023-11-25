@@ -1,25 +1,33 @@
 package poker.cards;
 
+import poker.enums.Rank;
 import poker.enums.Suit;
 
 public  class Card {
 
     private Suit suit; // масть
-    private String rank; // ранг  или значение карты
-    private  boolean isAvalible;
+    private String rank; // ранг или значение карты
+
+    private Rank enumRank;
+    private  boolean isAvailable;
 
     public Card(Suit suit, String rank) {
         this.suit = suit;
         this.rank = rank;
-        this.isAvalible = true;
+        this.isAvailable = true;
     }
 
-    public boolean isAvalible() {
-        return isAvalible;
+    public Card(Suit suit, Rank enumRank) {
+        this.suit = suit;
+        this.enumRank = enumRank;
     }
 
-    public void setAvalible(boolean available) {
-        isAvalible = available;
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
     }
 
     public Suit getSuit() {

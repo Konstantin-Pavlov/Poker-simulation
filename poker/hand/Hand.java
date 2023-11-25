@@ -12,9 +12,9 @@ public class Hand {
         int counter = 0;
         while (counter < 5) {
             Card card = deck.getRandomCard();
-            if (card.isAvalible()) {
+            if (card.isAvailable()) {
                 handCards[counter] = card;
-                card.setAvalible(false);
+                card.setAvailable(false);
                 counter++;
             }
         }
@@ -26,10 +26,10 @@ public class Hand {
             System.out.print(cardNumber + " ");
             while (true) {
                 Card card = deck.getRandomCard();
-                if (card.isAvalible()) {
+                if (card.isAvailable()) {
                     deck.returnCard(handCards[Integer.parseInt(cardNumber) - 1]);
                     handCards[Integer.parseInt(cardNumber) - 1] = card;
-                    card.setAvalible(false);
+                    card.setAvailable(false);
                     break;
                 }
             }
