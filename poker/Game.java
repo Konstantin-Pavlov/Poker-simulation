@@ -1,14 +1,11 @@
 package poker;
 
-import java.util.OptionalInt;
-import java.util.Random;
+import java.util.*;
 
 import poker.cards.Card;
 import poker.enums.Rank;
 import poker.enums.Suit;
-import poker.hand.Hand;
-import poker.helper.Helper;
-import poker.helper.WinningCombinations;
+import poker.enums.WinningCombinations;
 
 public class Game {
     public static Random random = new Random();
@@ -24,13 +21,16 @@ public class Game {
             System.out.println("Flash!");
         }*/
 
-        Card[] cards = new Card[]{new Card(Suit.HEARTS, Rank.FOUR),
+        List<String> list = new ArrayList<>(Arrays.asList("a", "b", "c"));
+
+        List<Card> cards = new ArrayList<>(Arrays.asList(new Card(Suit.HEARTS, Rank.FOUR),
                 new Card(Suit.HEARTS, Rank.FIVE),
                 new Card(Suit.HEARTS, Rank.SIX),
                 new Card(Suit.HEARTS, Rank.SEVEN),
-                new Card(Suit.HEARTS, Rank.EIGHT)
-        };
-        System.out.println(new WinningCombinations().isFlash(cards));
+                new Card(Suit.HEARTS, Rank.EIGHT))
+        );
+
+        System.out.println(WinningCombinations.FLASH.check(cards));
 
 
     }
