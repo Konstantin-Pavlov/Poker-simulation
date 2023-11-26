@@ -22,6 +22,18 @@ public enum WinningCombinations {
             return validHandCards(handCards) && areAllTheSameSuitInHand(handCards) && areTheCardsInARow(handCards, true);
         }
     },
+    STREET_FLASH {
+        @Override
+        public int getPriority() {
+            return 2;
+        }
+
+        // 4 карты одного ранга
+        @Override
+        public boolean check(List<Card> handCards) {
+            return validHandCards(handCards) && areAllTheSameSuitInHand(handCards) && areTheCardsInARow(handCards, false);
+        }
+    },
 
     CARE {
         @Override
@@ -32,7 +44,19 @@ public enum WinningCombinations {
         // 4 карты одного ранга
         @Override
         public boolean check(List<Card> handCards) {
-            return validHandCards(handCards) && numberOfSameRankInHand(handCards, 4);
+            return validHandCards(handCards) && numberOfSameRankInHand(handCards, 4, false);
+        }
+    },
+    FULLHOUSE {
+        @Override
+        public int getPriority() {
+            return 4;
+        }
+
+        // пять любых карт одной масти (suit)
+        @Override
+        public boolean check(List<Card> handCards) {
+            return validHandCards(handCards) && numberOfSameRankInHand(handCards, 4, true);
         }
     },
     FLASH {
@@ -103,17 +127,24 @@ public enum WinningCombinations {
         return handCards.stream().allMatch(card -> card.getSuit() == handCards.getFirst().getSuit());
     }
 
-    private static boolean numberOfSameRankInHand(List<Card> handCards, long numberOfRanksToCheck) {
+    private static boolean numberOfSameRankInHand(List<Card> handCards, long numberOfRanksToCheck, boolean fullHouseCase) {
         Map<Rank, Long> map = handCards.stream().collect(Collectors.groupingBy(Card::getEnumRank, Collectors.counting()));
+        //long l = map.entrySet().stream().max(Map.Entry.comparingByValue()).map(Map.Entry::getValue).orElse(1L);
+
+        // три карты одного ранга и две другого ранга
+        // например {FOUR=2, FIVE=3}, то есть размер map - 2
+        if (fullHouseCase) {
+            return map.size() == 2;
+        }
         return map.entrySet().stream().max(Map.Entry.comparingByValue()).map(Map.Entry::getValue).orElse(1L).equals(numberOfRanksToCheck);
     }
 
-    private  static boolean areTheCardsInARow(List<Card> handCards, boolean flashRoyalCase){
+    private static boolean areTheCardsInARow(List<Card> handCards, boolean flashRoyalCase) {
         // Сортируем список по рангу карты
         handCards.sort(Comparator.comparing(Card::getEnumRank));
 
         // если первая карта в отсортированной руке не десятка, то это не Royal flash
-        if (flashRoyalCase && !handCards.getFirst().getEnumRank().equals(Rank.TEN)){
+        if (flashRoyalCase && !handCards.getFirst().getEnumRank().equals(Rank.TEN)) {
             return false;
         }
 

@@ -25,16 +25,17 @@ public class WinningCombinationsTest {
         );
         Assert.assertTrue(WinningCombinations.FLASH_ROYAL.check(cards));
     }
+
     @Test
-    public void isFlash() {
+    public void isStreetFlash() {
         List<Card> cards = new ArrayList<>(Arrays.asList(
-                new Card(Suit.CLOVES, Rank.FOUR),
-                new Card(Suit.CLOVES, Rank.FIVE),
-                new Card(Suit.CLOVES, Rank.SIX),
-                new Card(Suit.CLOVES, Rank.SEVEN),
-                new Card(Suit.CLOVES, Rank.EIGHT))
+                new Card(Suit.TILES, Rank.FIVE),
+                new Card(Suit.TILES, Rank.EIGHT),
+                new Card(Suit.TILES, Rank.SEVEN),
+                new Card(Suit.TILES, Rank.NINE),
+                new Card(Suit.TILES, Rank.SIX))
         );
-        Assert.assertTrue(WinningCombinations.FLASH.check(cards));
+        Assert.assertTrue(WinningCombinations.STREET_FLASH.check(cards));
     }
 
     @Test
@@ -48,6 +49,30 @@ public class WinningCombinationsTest {
         );
         Assert.assertTrue(WinningCombinations.CARE.check(cards));
     }
+    @Test
+    public void isFullHouse() {
+        List<Card> cards = new ArrayList<>(Arrays.asList(
+                new Card(Suit.CLOVES, Rank.TWO),
+                new Card(Suit.PIKES, Rank.JACK),
+                new Card(Suit.HEARTS, Rank.TWO),
+                new Card(Suit.TILES, Rank.JACK),
+                new Card(Suit.PIKES, Rank.TWO))
+        );
+        Assert.assertTrue(WinningCombinations.FULLHOUSE.check(cards));
+    }
+
+    @Test
+    public void isFlash() {
+        List<Card> cards = new ArrayList<>(Arrays.asList(
+                new Card(Suit.CLOVES, Rank.FOUR),
+                new Card(Suit.CLOVES, Rank.FIVE),
+                new Card(Suit.CLOVES, Rank.SIX),
+                new Card(Suit.CLOVES, Rank.SEVEN),
+                new Card(Suit.CLOVES, Rank.EIGHT))
+        );
+        Assert.assertTrue(WinningCombinations.FLASH.check(cards));
+    }
+
 
     @Test
     public void isStreet() {

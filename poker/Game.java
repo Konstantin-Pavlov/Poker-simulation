@@ -26,16 +26,19 @@ public class Game {
 
         List<String> list = new ArrayList<>(Arrays.asList("a", "b", "c"));
 
-        List<Card> cards0 = new ArrayList<>(Arrays.asList(
+        List<Card> cards = new ArrayList<>(Arrays.asList(
                 new Card(Suit.HEARTS, Rank.FOUR),
-                new Card(Suit.HEARTS, Rank.FIVE),
-                null,
-                new Card(Suit.HEARTS, Rank.SEVEN),
-                new Card(Suit.HEARTS, Rank.EIGHT))
+                new Card(Suit.TILES, Rank.FIVE),
+                new Card(Suit.PIKES, Rank.FIVE),
+                new Card(Suit.CLOVES, Rank.FIVE),
+                new Card(Suit.HEARTS, Rank.FOUR))
         );
 
+        Map<Rank, Long> map = cards.stream().collect(Collectors.groupingBy(Card::getEnumRank, Collectors.counting()));
+        System.out.print(map);
 
-        System.out.println(cards0.contains(null));
+
+
 
 
 
