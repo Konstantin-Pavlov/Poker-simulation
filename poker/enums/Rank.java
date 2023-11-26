@@ -15,13 +15,14 @@ THREE(3),
     KING(13),
     ACE(14);
 
-    private final int priority;
+    private final int cardRank;
 
     Rank(int symbol) {
-        this.priority = symbol;
+
+        this.cardRank = symbol;
     }
 
     public int getPriority() {
-        return priority;
+        return cardRank;
     }
 }

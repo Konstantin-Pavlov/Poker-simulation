@@ -34,8 +34,16 @@ public  class Card {
         return suit;
     }
 
+    public Rank getEnumRank() {
+        return enumRank;
+    }
+
+    public String getRank() {
+        return rank;
+    }
+
     @Override
     public String toString() {
-        return rank + this.suit.getCardSuit();
+        return enumRank + this.suit.getCardSuit();
     }
 }

@@ -1,11 +1,14 @@
 package poker;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import poker.cards.Card;
 import poker.enums.Rank;
 import poker.enums.Suit;
 import poker.enums.WinningCombinations;
+
+import javax.swing.text.html.parser.Entity;
 
 public class Game {
     public static Random random = new Random();
@@ -23,14 +26,17 @@ public class Game {
 
         List<String> list = new ArrayList<>(Arrays.asList("a", "b", "c"));
 
-        List<Card> cards = new ArrayList<>(Arrays.asList(new Card(Suit.HEARTS, Rank.FOUR),
+        List<Card> cards0 = new ArrayList<>(Arrays.asList(
+                new Card(Suit.HEARTS, Rank.FOUR),
                 new Card(Suit.HEARTS, Rank.FIVE),
-                new Card(Suit.HEARTS, Rank.SIX),
+                null,
                 new Card(Suit.HEARTS, Rank.SEVEN),
                 new Card(Suit.HEARTS, Rank.EIGHT))
         );
 
-        System.out.println(WinningCombinations.FLASH.check(cards));
+
+        System.out.println(cards0.contains(null));
+
 
 
     }
