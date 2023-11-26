@@ -14,7 +14,7 @@ poker
 │   └── Hand.java
 ├── helper
 │   └── Helper.java
-│   └──WinningCombinations.java
+│   └── WinningCombinations.java
 ├── enums
 │   └── Suit.java
 │   └── Rank.java
