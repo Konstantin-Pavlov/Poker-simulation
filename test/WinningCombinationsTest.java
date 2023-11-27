@@ -49,6 +49,7 @@ public class WinningCombinationsTest {
         );
         Assert.assertTrue(WinningCombinations.CARE.check(cards));
     }
+
     @Test
     public void isFullHouse() {
         List<Card> cards = new ArrayList<>(Arrays.asList(
@@ -58,7 +59,7 @@ public class WinningCombinationsTest {
                 new Card(Suit.TILES, Rank.JACK),
                 new Card(Suit.PIKES, Rank.TWO))
         );
-        Assert.assertTrue(WinningCombinations.FULLHOUSE.check(cards));
+        Assert.assertTrue(WinningCombinations.FULL_HOUSE.check(cards));
     }
 
     @Test
@@ -73,7 +74,6 @@ public class WinningCombinationsTest {
         Assert.assertTrue(WinningCombinations.FLASH.check(cards));
     }
 
-
     @Test
     public void isStreet() {
         List<Card> cards = new ArrayList<>(Arrays.asList(
@@ -84,5 +84,17 @@ public class WinningCombinationsTest {
                 new Card(Suit.HEARTS, Rank.SEVEN))
         );
         Assert.assertTrue(WinningCombinations.STREET.check(cards));
+    }
+
+    @Test
+    public void isThreeCards() {
+        List<Card> cards = new ArrayList<>(Arrays.asList(
+                new Card(Suit.TILES, Rank.SIX),
+                new Card(Suit.PIKES, Rank.SEVEN),
+                new Card(Suit.CLOVES, Rank.NINE),
+                new Card(Suit.TILES, Rank.SEVEN),
+                new Card(Suit.HEARTS, Rank.SEVEN))
+        );
+        Assert.assertTrue(WinningCombinations.THREE_OF_A_KIND.check(cards));
     }
 }

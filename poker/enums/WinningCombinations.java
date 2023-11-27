@@ -34,7 +34,6 @@ public enum WinningCombinations {
             return validHandCards(handCards) && areAllTheSameSuitInHand(handCards) && areTheCardsInARow(handCards, false);
         }
     },
-
     CARE {
         @Override
         public int getPriority() {
@@ -44,10 +43,10 @@ public enum WinningCombinations {
         // 4 карты одного ранга
         @Override
         public boolean check(List<Card> handCards) {
-            return validHandCards(handCards) && numberOfSameRankInHand(handCards, 4, false);
+            return validHandCards(handCards) && numberOfSameRankInHand(handCards, 4, false, false);
         }
     },
-    FULLHOUSE {
+    FULL_HOUSE {
         @Override
         public int getPriority() {
             return 4;
@@ -56,7 +55,8 @@ public enum WinningCombinations {
         // пять любых карт одной масти (suit)
         @Override
         public boolean check(List<Card> handCards) {
-            return validHandCards(handCards) && numberOfSameRankInHand(handCards, 4, true);
+            // в методе numberOfSameRankInHand арг 4 не важен в этом случае, случай fullHouse проверяется отдельно в if
+            return validHandCards(handCards) && numberOfSameRankInHand(handCards, 4, true, false);
         }
     },
     FLASH {
@@ -79,33 +79,62 @@ public enum WinningCombinations {
 
         @Override
         public boolean check(List<Card> handCards) {
-            if (handCards.size() != 5) {
-                return false; // Если в списке не 5 карт, то невозможно образовать стрит
-            }
-
-            // Сортируем список по рангу карты
-            handCards.sort(Comparator.comparing(Card::getEnumRank));
-
-            // Проверяем, что разница между рангами каждой карты и следующей карты равна 1
-       /*     for (int i = 0; i < handCards.size() - 1; i++) {
-                int currentRank = handCards.get(i).getEnumRank().ordinal();
-                int nextRank = handCards.get(i + 1).getEnumRank().ordinal();
-                if (nextRank - currentRank != 1) {
-                    return false; // Если разница в ранге не равна 1, то это не стрит
-                }
-                return true;
-            }*/
-
-            // Если все карты имеют разницу в ранге, равную 1, то это стрит
-            return IntStream.range(0, handCards.size() - 1)
-                    .allMatch(i -> handCards.get(i + 1).getEnumRank().ordinal() - handCards.get(i).getEnumRank().ordinal() == 1);
+            return validHandCards(handCards) && areTheCardsInARow(handCards, false);
         }
+    },
+
+    THREE_OF_A_KIND{
+        @Override
+        public int getPriority() {
+            return 7;
+        }
+
+        //  Тройка. 3 карты одного ранга
+        @Override
+        public boolean check(List<Card> handCards) {
+            return validHandCards(handCards) && numberOfSameRankInHand(handCards, 3, false, true);
+        }
+    },
+    TWO_PAIR {
+        @Override
+        public int getPriority() {
+            return 8;
+        }
+
+        // две пары. две пары карт одинаковых по рангу
+        @Override
+        public boolean check(List<Card> handCards) {
+            return false;
+        }
+    },
+    ONE_PAIR {
+        @Override
+        public int getPriority() {
+            return 9;
+        }
+
+        @Override
+        public boolean check(List<Card> handCards) {
+            return false;
+        }
+    },
+    HIGH_CARD {
+        @Override
+        public int getPriority() {
+            return 10;
+        }
+
+        @Override
+        public boolean check(List<Card> handCards) {
+            return false;
+        }
+
+
     };
 
     public abstract int getPriority();
 
     public abstract boolean check(List<Card> handCards);
-
 
     private static boolean validHandCards(List<Card> handCards) {
         if (handCards.isEmpty()) {
@@ -127,15 +156,23 @@ public enum WinningCombinations {
         return handCards.stream().allMatch(card -> card.getSuit() == handCards.getFirst().getSuit());
     }
 
-    private static boolean numberOfSameRankInHand(List<Card> handCards, long numberOfRanksToCheck, boolean fullHouseCase) {
+    private static boolean numberOfSameRankInHand(List<Card> handCards, long numberOfRanksToCheck, boolean fullHouseCase, boolean threeCardsCase) {
+        // получается мапа например такого вида - {SIX=1, KING=1, FIVE=3} (ранг и сколько раз он встречается)
         Map<Rank, Long> map = handCards.stream().collect(Collectors.groupingBy(Card::getEnumRank, Collectors.counting()));
         //long l = map.entrySet().stream().max(Map.Entry.comparingByValue()).map(Map.Entry::getValue).orElse(1L);
 
         // три карты одного ранга и две другого ранга
-        // например {FOUR=2, FIVE=3}, то есть размер map - 2
+        // например {FOUR=2, FIVE=3}, то есть размер map - 2, так же в значениях должно быть 3 и 2 (иначе мб {FOUR=4, FIVE=1})
         if (fullHouseCase) {
-            return map.size() == 2;
+            return map.size() == 2 && map.containsValue(3L) && map.containsValue(2L);
         }
+
+        // три карты одного ранга
+        // например {FOUR=1, SIX=1, FIVE=3}, то есть размер map - 3, так же в значениях должно быть 3 и 1
+        if (threeCardsCase) {
+            return map.size() == 3 && map.containsValue(3L) && map.containsValue(1L);
+        }
+
         return map.entrySet().stream().max(Map.Entry.comparingByValue()).map(Map.Entry::getValue).orElse(1L).equals(numberOfRanksToCheck);
     }
 

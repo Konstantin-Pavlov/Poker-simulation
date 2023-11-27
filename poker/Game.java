@@ -27,15 +27,16 @@ public class Game {
         List<String> list = new ArrayList<>(Arrays.asList("a", "b", "c"));
 
         List<Card> cards = new ArrayList<>(Arrays.asList(
-                new Card(Suit.HEARTS, Rank.FOUR),
+                new Card(Suit.HEARTS, Rank.SIX),
                 new Card(Suit.TILES, Rank.FIVE),
                 new Card(Suit.PIKES, Rank.FIVE),
                 new Card(Suit.CLOVES, Rank.FIVE),
-                new Card(Suit.HEARTS, Rank.FOUR))
+                new Card(Suit.HEARTS, Rank.KING))
         );
 
         Map<Rank, Long> map = cards.stream().collect(Collectors.groupingBy(Card::getEnumRank, Collectors.counting()));
-        System.out.print(map);
+        System.out.println(map);
+        System.out.print(map.containsValue(3L));
 
 
 
