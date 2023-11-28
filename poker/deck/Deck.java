@@ -3,12 +3,11 @@ package poker.deck;
 import java.util.Random;
 
 import poker.cards.Card;
+import poker.enums.Rank;
 import poker.enums.Suit;
 
 public class Deck {
     private static Random random = new Random();
-    private String[] ranks;
-    private Suit[] suits;
     private static Card[] cards;
 
     public void printDeck() {
@@ -21,20 +20,12 @@ public class Deck {
         // счетчик для заполнения массива cards
         int cardCounter = 0;
 
-        // получение упорядоченных массивов с ранками карт и мастями
-        ranks = getRanksArray();
-        suits = getSuitsArray();
-
-        // перемешивание упорядоченных массивов с ранками карт и мастями
-        shuffleArray(ranks);
-        shuffleArray(suits);
-
         // создание массива с картами
         cards = new Card[52];
 
         // заполнение массива cards случайными картами
-        for (Suit suit : suits) {
-            for (String rank : ranks) {
+        for (Suit suit : Suit.values()) {
+            for (Rank rank : Rank.values()) {
                 cards[cardCounter++] = new Card(suit, rank);
             }
         }
@@ -42,16 +33,6 @@ public class Deck {
         shuffleArray(cards);
     }
 
-    private Suit[] getSuitsArray() {
-        // Создаем массив типа Suit с мастями
-        return new Suit[] { Suit.HEARTS, Suit.PIKES, Suit.CLOVES, Suit.TILES };
-
-    }
-
-    private String[] getRanksArray() {
-        // Создаем массив с рангами от 2 до A
-        return new String[] { "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A" };
-    }
 
     // используется алгоритм Фишера-Йейтса для случайного перемешивания элементов массива
     // тип Object (родитель всех остальных классов) поэтому в аргументах может быть любой тип
@@ -73,7 +54,8 @@ public class Deck {
         int choice = random.nextInt(cards.length);
         return cards[choice];
     }
-    public void returnCard(Card card){
+
+    public void returnCard(Card card) {
         card.setAvailable(true);
     }
 

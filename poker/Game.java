@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import poker.cards.Card;
+import poker.deck.Deck;
 import poker.enums.Rank;
 import poker.enums.Suit;
 import poker.enums.WinningCombinations;

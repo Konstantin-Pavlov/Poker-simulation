@@ -82,8 +82,7 @@ public enum WinningCombinations {
             return validHandCards(handCards) && areTheCardsInARow(handCards, false);
         }
     },
-
-    THREE_OF_A_KIND{
+    THREE_OF_A_KIND {
         @Override
         public int getPriority() {
             return 7;
@@ -158,7 +157,7 @@ public enum WinningCombinations {
 
     private static boolean numberOfSameRankInHand(List<Card> handCards, long numberOfRanksToCheck, boolean fullHouseCase, boolean threeCardsCase) {
         // получается мапа например такого вида - {SIX=1, KING=1, FIVE=3} (ранг и сколько раз он встречается)
-        Map<Rank, Long> map = handCards.stream().collect(Collectors.groupingBy(Card::getEnumRank, Collectors.counting()));
+        Map<Rank, Long> map = handCards.stream().collect(Collectors.groupingBy(Card::getRank, Collectors.counting()));
         //long l = map.entrySet().stream().max(Map.Entry.comparingByValue()).map(Map.Entry::getValue).orElse(1L);
 
         // три карты одного ранга и две другого ранга
@@ -178,10 +177,10 @@ public enum WinningCombinations {
 
     private static boolean areTheCardsInARow(List<Card> handCards, boolean flashRoyalCase) {
         // Сортируем список по рангу карты
-        handCards.sort(Comparator.comparing(Card::getEnumRank));
+        handCards.sort(Comparator.comparing(Card::getRank));
 
         // если первая карта в отсортированной руке не десятка, то это не Royal flash
-        if (flashRoyalCase && !handCards.getFirst().getEnumRank().equals(Rank.TEN)) {
+        if (flashRoyalCase && !handCards.getFirst().getRank().equals(Rank.TEN)) {
             return false;
         }
 
@@ -197,6 +196,6 @@ public enum WinningCombinations {
 
         // Если все карты имеют разницу в ранге, равную 1, то они идут подряд
         return IntStream.range(0, handCards.size() - 1)
-                .allMatch(i -> handCards.get(i + 1).getEnumRank().ordinal() - handCards.get(i).getEnumRank().ordinal() == 1);
+                .allMatch(i -> handCards.get(i + 1).getRank().ordinal() - handCards.get(i).getRank().ordinal() == 1);
     }
 }

@@ -37,19 +37,12 @@ public class Hand {
         System.out.println();
     }
 
-    public void returnCard(String cardNumber) {
-        Card cardToReturn = handCards[Integer.parseInt(cardNumber) - 1];
-        System.out.println("вы возвращаете карту");
-        System.out.printf("номер карты: %s карта: %s%n", cardNumber, cardToReturn);
-        deck.returnCard(cardToReturn);
-    }
-
     public void showHand() {
-        String fmt = " %-2s |";
+        String fmt = " %-7s |";
         StringBuilder sb = new StringBuilder();
         StringBuilder header = new StringBuilder();
         StringBuilder value = new StringBuilder();
-        for (int i = 0; i < handCards.length; i++){
+        for (int i = 0; i < handCards.length; i++) {
             header.append(String.format(fmt, i + 1));
             value.append(String.format(fmt, handCards[i]));
         }
@@ -57,6 +50,6 @@ public class Hand {
         sb.append(header.substring(0, header.length() - 1));
         sb.append("\n");
         sb.append(value.substring(0, value.length() - 1));
-        System.out.println(sb.toString());
+        System.out.println(sb);
     }
 }
