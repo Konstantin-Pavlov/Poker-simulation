@@ -44,6 +44,6 @@ public  class Card {
 
     @Override
     public String toString() {
-        return enumRank + this.suit.getCardSuit();
+        return rank + this.suit.getCardSuit();
     }
 }

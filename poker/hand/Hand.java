@@ -45,15 +45,18 @@ public class Hand {
     }
 
     public void showHand() {
-        int i = 1;
-        for (; i < handCards.length; i++) {
-            System.out.printf("%-15d|", i);
+        String fmt = " %-2s |";
+        StringBuilder sb = new StringBuilder();
+        StringBuilder header = new StringBuilder();
+        StringBuilder value = new StringBuilder();
+        for (int i = 0; i < handCards.length; i++){
+            header.append(String.format(fmt, i + 1));
+            value.append(String.format(fmt, handCards[i]));
         }
-        System.out.printf("%-15d%n", i);
 
-        for (i = 0; i < handCards.length - 1; i++) {
-            System.out.printf("%-15s|", handCards[i]);
-        }
-        System.out.printf("%-15s%n", handCards[i]);
+        sb.append(header.substring(0, header.length() - 1));
+        sb.append("\n");
+        sb.append(value.substring(0, value.length() - 1));
+        System.out.println(sb.toString());
     }
 }
