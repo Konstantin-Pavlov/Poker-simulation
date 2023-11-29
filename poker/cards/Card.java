@@ -4,8 +4,8 @@ import poker.enums.Rank;
 import poker.enums.Suit;
 
 public class Card {
-    private Suit suit; // масть
-    private Rank rank;
+    private final Suit suit; // масть
+    private final Rank rank;
     private boolean isAvailable;
 
     public Card(Suit suit, Rank rank) {
@@ -13,7 +13,6 @@ public class Card {
         this.rank = rank;
         this.isAvailable = true;
     }
-
 
     public boolean isAvailable() {
         return isAvailable;
@@ -30,7 +29,6 @@ public class Card {
     public Rank getRank() {
         return rank;
     }
-
 
     @Override
     public String toString() {

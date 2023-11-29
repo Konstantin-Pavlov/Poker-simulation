@@ -73,7 +73,6 @@ public class WinningCombinationsTest {
         );
         Assert.assertTrue(WinningCombinations.FLASH.check(cards));
     }
-
     @Test
     public void isStreet() {
         List<Card> cards = new ArrayList<>(Arrays.asList(
@@ -85,7 +84,6 @@ public class WinningCombinationsTest {
         );
         Assert.assertTrue(WinningCombinations.STREET.check(cards));
     }
-
     @Test
     public void isThreeCards() {
         List<Card> cards = new ArrayList<>(Arrays.asList(
@@ -96,5 +94,38 @@ public class WinningCombinationsTest {
                 new Card(Suit.HEARTS, Rank.SEVEN))
         );
         Assert.assertTrue(WinningCombinations.THREE_OF_A_KIND.check(cards));
+    }
+    @Test
+    public void isTwoPairs() {
+        List<Card> cards = new ArrayList<>(Arrays.asList(
+                new Card(Suit.TILES, Rank.THREE),
+                new Card(Suit.PIKES, Rank.SEVEN),
+                new Card(Suit.CLOVES, Rank.NINE),
+                new Card(Suit.TILES, Rank.SEVEN),
+                new Card(Suit.HEARTS, Rank.THREE))
+        );
+        Assert.assertTrue(WinningCombinations.TWO_PAIRS.check(cards));
+    }
+    @Test
+    public void isOnePair() {
+        List<Card> cards = new ArrayList<>(Arrays.asList(
+                new Card(Suit.TILES, Rank.ACE),
+                new Card(Suit.PIKES, Rank.KING),
+                new Card(Suit.CLOVES, Rank.NINE),
+                new Card(Suit.TILES, Rank.KING),
+                new Card(Suit.HEARTS, Rank.THREE))
+        );
+        Assert.assertTrue(WinningCombinations.ONE_PAIR.check(cards));
+    }
+    @Test
+    public void isHighCard() {
+        List<Card> cards = new ArrayList<>(Arrays.asList(
+                new Card(Suit.TILES, Rank.JACK),
+                new Card(Suit.PIKES, Rank.FIVE),
+                new Card(Suit.CLOVES, Rank.NINE),
+                new Card(Suit.TILES, Rank.FOUR),
+                new Card(Suit.HEARTS, Rank.THREE))
+        );
+        Assert.assertTrue(WinningCombinations.HIGH_CARD.check(cards));
     }
 }

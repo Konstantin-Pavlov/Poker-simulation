@@ -43,7 +43,8 @@ public enum WinningCombinations {
         // 4 карты одного ранга
         @Override
         public boolean check(List<Card> handCards) {
-            return validHandCards(handCards) && numberOfSameRankInHand(handCards, 4, false, false);
+            return validHandCards(handCards) &&
+                    numberOfSameRankInHand(handCards, 4, false, false, false, false);
         }
     },
     FULL_HOUSE {
@@ -56,7 +57,8 @@ public enum WinningCombinations {
         @Override
         public boolean check(List<Card> handCards) {
             // в методе numberOfSameRankInHand арг 4 не важен в этом случае, случай fullHouse проверяется отдельно в if
-            return validHandCards(handCards) && numberOfSameRankInHand(handCards, 4, true, false);
+            return validHandCards(handCards) &&
+                    numberOfSameRankInHand(handCards, 4, true, false, false, false);
         }
     },
     FLASH {
@@ -91,10 +93,11 @@ public enum WinningCombinations {
         //  Тройка. 3 карты одного ранга
         @Override
         public boolean check(List<Card> handCards) {
-            return validHandCards(handCards) && numberOfSameRankInHand(handCards, 3, false, true);
+            return validHandCards(handCards) &&
+                    numberOfSameRankInHand(handCards, 3, false, true, false, false);
         }
     },
-    TWO_PAIR {
+    TWO_PAIRS {
         @Override
         public int getPriority() {
             return 8;
@@ -103,7 +106,8 @@ public enum WinningCombinations {
         // две пары. две пары карт одинаковых по рангу
         @Override
         public boolean check(List<Card> handCards) {
-            return false;
+            return validHandCards(handCards) &&
+                    numberOfSameRankInHand(handCards, 2, false, false, true, false);
         }
     },
     ONE_PAIR {
@@ -114,7 +118,8 @@ public enum WinningCombinations {
 
         @Override
         public boolean check(List<Card> handCards) {
-            return false;
+            return validHandCards(handCards) &&
+                    numberOfSameRankInHand(handCards, 2, false, false, false, true);
         }
     },
     HIGH_CARD {
@@ -125,10 +130,8 @@ public enum WinningCombinations {
 
         @Override
         public boolean check(List<Card> handCards) {
-            return false;
+            return validHandCards(handCards) && findHighCard( handCards);
         }
-
-
     };
 
     public abstract int getPriority();
@@ -155,7 +158,13 @@ public enum WinningCombinations {
         return handCards.stream().allMatch(card -> card.getSuit() == handCards.getFirst().getSuit());
     }
 
-    private static boolean numberOfSameRankInHand(List<Card> handCards, long numberOfRanksToCheck, boolean fullHouseCase, boolean threeCardsCase) {
+    private static boolean numberOfSameRankInHand(List<Card> handCards,
+                                                  long numberOfRanksToCheck,
+                                                  boolean fullHouseCase,
+                                                  boolean threeCardsCase,
+                                                  boolean twoPairCase,
+                                                  boolean onePairCase) {
+
         // получается мапа например такого вида - {SIX=1, KING=1, FIVE=3} (ранг и сколько раз он встречается)
         Map<Rank, Long> map = handCards.stream().collect(Collectors.groupingBy(Card::getRank, Collectors.counting()));
         //long l = map.entrySet().stream().max(Map.Entry.comparingByValue()).map(Map.Entry::getValue).orElse(1L);
@@ -170,6 +179,18 @@ public enum WinningCombinations {
         // например {FOUR=1, SIX=1, FIVE=3}, то есть размер map - 3, так же в значениях должно быть 3 и 1
         if (threeCardsCase) {
             return map.size() == 3 && map.containsValue(3L) && map.containsValue(1L);
+        }
+
+        // две пары карт одинаковых по рангу
+        // например {FOUR=2, SIX=1, FIVE=2}, то есть размер map - 3, так же в значениях должно быть 2 и 1
+        if (twoPairCase) {
+            return map.size() == 3 && map.containsValue(2L) && map.containsValue(1L);
+        }
+
+        // две карты одинаковых по рангу
+        // например {FOUR=2, SIX=1, FIVE=1, TEN=1}, то есть размер map - 4, так же в значениях должно быть 2 и 1
+        if (onePairCase) {
+            return map.size() == 4 && map.containsValue(2L) && map.containsValue(1L);
         }
 
         return map.entrySet().stream().max(Map.Entry.comparingByValue()).map(Map.Entry::getValue).orElse(1L).equals(numberOfRanksToCheck);
@@ -197,5 +218,12 @@ public enum WinningCombinations {
         // Если все карты имеют разницу в ранге, равную 1, то они идут подряд
         return IntStream.range(0, handCards.size() - 1)
                 .allMatch(i -> handCards.get(i + 1).getRank().ordinal() - handCards.get(i).getRank().ordinal() == 1);
+    }
+
+    private static boolean findHighCard(List<Card> handCards){
+        // сортировка по рангу
+        handCards.sort(Comparator.comparing(Card::getRank));
+        // если нашлась карта больше десятки, значит есть старшая карта
+        return handCards.getLast().getRank().getPriority() > 10;
     }
 }
